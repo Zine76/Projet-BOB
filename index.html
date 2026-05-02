@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan IA — Printemps numérique — Itération 1</title>
+<style>
+  /* ============ RESET & BASE ============ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #0f1419;
+    --bg-elevated: #1a2028;
+    --bg-card: #1e2530;
+    --border: #2a3340;
+    --border-accent: #3a4555;
+    --text: #e4e7eb;
+    --text-muted: #9aa5b1;
+    --text-dim: #6b7684;
+    --accent: #f4a261;
+    --accent-soft: #f4a26122;
+    --green: #7fb069;
+    --green-soft: #7fb06922;
+    --yellow: #e9c46a;
+    --yellow-soft: #e9c46a22;
+    --red: #e76f51;
+    --red-soft: #e76f5122;
+    --blue: #6da3c7;
+    --blue-soft: #6da3c722;
+    --purple: #b08bbb;
+    --mono: 'SF Mono', 'Monaco', 'Consolas', 'Courier New', monospace;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ============ LAYOUT ============ */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ============ HEADER ============ */
+  .header {
+    border-bottom: 2px solid var(--border-accent);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  .header-subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .meta-item {
+    background: var(--bg-elevated);
+    padding: 12px 16px;
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+  }
+
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* ============ NAV ============ */
+  .toc {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .toc ol {
+    list-style: none;
+    columns: 2;
+    column-gap: 32px;
+  }
+
+  .toc li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    break-inside: avoid;
+  }
+
+  .toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+    transition: all 0.15s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .toc-num {
+    font-family: var(--mono);
+    color: var(--text-dim);
+    margin-right: 8px;
+    font-size: 12px;
+  }
+
+  /* ============ SECTIONS ============ */
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 20px;
+  }
+
+  h2 {
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    margin-top: 48px;
+  }
+
+  .phase-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  .status-dot {
+    font-size: 14px;
+  }
+
+  .section-meta {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-size: 19px;
+    color: #fff;
+    margin-top: 32px;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 16px;
+    color: var(--accent);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+  p strong { color: #fff; font-weight: 600; }
+
+  /* ============ ACTION CARDS ============ */
+  .action {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+
+  .action-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .action-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .action-title {
+    font-weight: 600;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .action-body {
+    color: var(--text);
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .action-spec {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+
+  .spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .spec-label {
+    color: var(--text-dim);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .spec-value { color: var(--text); }
+
+  .effort-low { color: var(--green); }
+  .effort-med { color: var(--yellow); }
+  .effort-high { color: var(--red); }
+
+  /* ============ CODE BLOCKS ============ */
+  pre, code {
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  code {
+    background: var(--bg-elevated);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  pre {
+    background: #0a0d12;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+    font-size: 13px;
+  }
+
+  /* ============ ALERTS ============ */
+  .alert {
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-left: 4px solid;
+  }
+
+  .alert-red {
+    background: var(--red-soft);
+    border-left-color: var(--red);
+  }
+
+  .alert-yellow {
+    background: var(--yellow-soft);
+    border-left-color: var(--yellow);
+  }
+
+  .alert-green {
+    background: var(--green-soft);
+    border-left-color: var(--green);
+  }
+
+  .alert-blue {
+    background: var(--blue-soft);
+    border-left-color: var(--blue);
+  }
+
+  .alert-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .alert-red .alert-title { color: var(--red); }
+  .alert-yellow .alert-title { color: var(--yellow); }
+  .alert-green .alert-title { color: var(--green); }
+  .alert-blue .alert-title { color: var(--blue); }
+
+  /* ============ AXES (3-column for cartography) ============ */
+  .axes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  @media (min-width: 900px) {
+    .axes { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .axis {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid;
+    border-radius: 4px;
+    padding: 18px;
+  }
+
+  .axis-1 { border-top-color: var(--green); }
+  .axis-2 { border-top-color: var(--blue); }
+  .axis-3 { border-top-color: var(--purple); }
+
+  .axis-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .axis-title {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .axis-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .axis-body strong { color: var(--text); }
+
+  /* ============ SKILLS GRID ============ */
+  .skill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+
+  .skill-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .skill-num {
+    width: 28px;
+    height: 28px;
+    background: var(--purple);
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .skill-name {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .skill-risk {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+
+  .risk-low { background: var(--green-soft); color: var(--green); }
+  .risk-med { background: var(--yellow-soft); color: var(--yellow); }
+  .risk-high { background: var(--red-soft); color: var(--red); }
+
+  .skill-detail {
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 8px;
+  }
+
+  .skill-detail strong { color: var(--accent); display: inline-block; min-width: 70px; }
+
+  /* ============ METRICS ============ */
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (min-width: 700px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .metric {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px;
+  }
+
+  .metric-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+
+  .metric-title {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .metric-target {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .metric-key {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ============ BUDGET TABLE ============ */
+  .budget {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: var(--bg-card);
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .budget th, .budget td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .budget th {
+    background: var(--bg-elevated);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .budget tr:last-child td { border-bottom: none; }
+
+  .budget tr.total {
+    background: var(--accent-soft);
+    font-weight: 700;
+  }
+
+  .budget tr.total td { color: var(--accent); border-bottom: none; }
+
+  .budget td:last-child {
+    font-family: var(--mono);
+    text-align: right;
+    color: var(--text);
+  }
+
+  /* ============ NEXT STEP ============ */
+  .next-step {
+    background: linear-gradient(135deg, var(--accent-soft), var(--bg-card));
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin: 48px 0 32px;
+  }
+
+  .next-step h2 {
+    border: none;
+    margin-top: 0;
+    color: var(--accent);
+  }
+
+  .step-list {
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .step-list li {
+    counter-increment: step;
+    padding: 14px 0 14px 48px;
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .step-list li:last-child { border-bottom: none; }
+
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: var(--mono);
+  }
+
+  /* ============ MISC ============ */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0 24px;
+    padding: 14px 18px;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+  }
+
+  ul.bullet-list {
+    margin: 12px 0 16px 24px;
+  }
+
+  ul.bullet-list li {
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  a:hover { color: #fff; border-bottom-style: solid; }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  .footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .complementarity {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  @media (min-width: 700px) {
+    .complementarity { grid-template-columns: 1fr 1fr; }
+  }
+
+  .agent-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .agent-card.openclaw { border-top: 3px solid var(--green); }
+  .agent-card.hermes { border-top: 3px solid var(--blue); }
+
+  .agent-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .agent-role {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .agent-spec {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .agent-spec strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <span class="header-tag">Plan d'action — Itération 1</span>
+    <h1>Stack IA pour Printemps numérique</h1>
+    <p class="header-subtitle">
+      Déploiement d'un secrétaire IA augmenté pour réduire la charge cognitive du DG, 
+      sans chief of staff, en 14 semaines.
+    </p>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">Destinataire</div>
+        <div class="meta-value">Bob, DG &amp; cofondateur</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Organisation</div>
+        <div class="meta-value">Printemps numérique (14 pers.)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Date</div>
+        <div class="meta-value">2 mai 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Statut</div>
+        <div class="meta-value">Vivant — à itérer</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ TOC ============ -->
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <ol>
+      <li><span class="toc-num">00</span><a href="#preambule">Préambule de transparence</a></li>
+      <li><span class="toc-num">01</span><a href="#vue">Vue d'ensemble</a></li>
+      <li><span class="toc-num">02</span><a href="#phase-1">Phase −1 — Préparation admin</a></li>
+      <li><span class="toc-num">03</span><a href="#phase0">Phase 0 — OpenClaw local</a></li>
+      <li><span class="toc-num">04</span><a href="#phase1">Phase 1 — Cartographie informée</a></li>
+      <li><span class="toc-num">05</span><a href="#phase2">Phase 2 — Hermes &amp; mémoire</a></li>
+      <li><span class="toc-num">06</span><a href="#phase3">Phase 3 — Skills &amp; gouvernance</a></li>
+      <li><span class="toc-num">07</span><a href="#metriques">Métriques de succès</a></li>
+      <li><span class="toc-num">08</span><a href="#budget">Budget mensuel</a></li>
+      <li><span class="toc-num">09</span><a href="#vigilance">Points de vigilance</a></li>
+      <li><span class="toc-num">10</span><a href="#nextstep">Next Step immédiat</a></li>
+      <li><span class="toc-num">11</span><a href="#iterer">Comment itérer</a></li>
+    </ol>
+  </nav>
+
+  <!-- Légende statuts -->
+  <div class="legend">
+    <div class="legend-item"><span class="status-dot">🟢</span> Stable, probablement juste du premier coup</div>
+    <div class="legend-item"><span class="status-dot">🟡</span> À ajuster après expérience réelle</div>
+    <div class="legend-item"><span class="status-dot">🔴</span> Vigilance non négociable</div>
+  </div>
+
+  <!-- ============ PRÉAMBULE ============ -->
+  <section id="preambule">
+    <h2>Préambule de transparence</h2>
+    <p class="section-meta">Avant le plan, ce que tu dois savoir sur sa fiabilité — parce que tu mérites mieux qu'un plan vendu comme certain.</p>
+
+    <h4>Ce que j'ai vérifié</h4>
+    <p>L'existence et la fonction réelle d'OpenClaw (<a href="https://openclawai.io">openclawai.io</a>, doc sur <a href="https://docs.openclaw.ai">docs.openclaw.ai</a>), de Hermes Agent (Nous Research, <a href="https://hermes-agent.nousresearch.com">hermes-agent.nousresearch.com</a>), de ClawHub comme registre de skills, et de Honcho comme un des memory providers de Hermes parmi huit. Ces outils existent et font globalement ce qui est annoncé.</p>
+
+    <h4>Ce dont je ne suis pas certain</h4>
+    <p>La syntaxe exacte des commandes CLI au moment de ton installation (les outils évoluent vite, surtout Hermes). Le coût réel de l'API Claude pour ton volume précis (mes estimations sont des fourchettes, pas des promesses). La compatibilité fine entre les MCP servers Google et OpenClaw/Hermes au jour J. Le comportement des skills ClawHub communautaires, dont la qualité varie.</p>
+
+    <h4>Ce qui est mon jugement professionnel et non un fait vérifié</h4>
+    <p>L'ordonnancement des phases, l'effort estimé pour ton profil, les priorités de skills custom, les seuils de métriques, et la lecture Loi 25 — qui n'est pas un avis juridique formel.</p>
+
+    <div class="alert alert-blue">
+      <div class="alert-title">📖 Comment lire ce plan</div>
+      <p style="margin: 0;">Chaque action est étiquetée <code>[Outil] | Cas d'usage | Effort | Coût</code>. Les sections marquées 🟡 sont à ajuster après expérience. Les 🔴 sont des points de vigilance non négociables. Les 🟢 sont stables et probablement justes du premier coup.</p>
+    </div>
+  </section>
+
+  <!-- ============ VUE D'ENSEMBLE ============ -->
+  <section id="vue">
+    <h2>Vue d'ensemble en une page</h2>
+    <p>Le déploiement se fait en <strong>cinq phases sur environ quatorze semaines</strong>, pas douze. La phase ajoutée s'appelle Phase −1 et concerne la préparation administrative qui, sans elle, transforme le jour 1 en journée d'admin Google Cloud frustrante.</p>
+
+    <p>La logique d'ensemble : <strong>Phase −1</strong> prépare le terrain en deux jours. <strong>Phase 0</strong> installe OpenClaw comme premier secrétaire local sur sept jours calendaires, pas trois. <strong>Phase 1</strong> cartographie tes charges réelles après deux semaines d'expérience vécue avec OpenClaw — parce qu'une cartographie faite avant utilisation est de la spéculation. <strong>Phase 2</strong> déploie Hermes sur VPS pour les tâches longues et la mémoire long terme. <strong>Phase 3</strong> construit cinq skills sur mesure, formalise la gouvernance, et instaure les métriques de charge mentale.</p>
+
+    <p>Le <strong>budget mensuel cible en régime de croisière</strong> se situe entre soixante-dix et cent quinze dollars canadiens, en étant honnête plutôt que rassurant. L'essentiel du coût vient de l'API Claude, pas de l'infrastructure.</p>
+
+    <p>Le <strong>résultat attendu à la fin des quatorze semaines</strong> : tu ouvres ton laptop le soir et le weekend au moins cinquante pour cent moins souvent qu'aujourd'hui, et tu arrives au bureau le matin avec un plan clair plutôt qu'une pile à démêler.</p>
+  </section>
+
+  <!-- ============ PHASE -1 ============ -->
+  <section id="phase-1">
+    <h2><span class="phase-badge">Phase −1</span> Préparation administrative <span class="status-dot">🟢</span></h2>
+    <p class="section-meta">Jours 1–2 — Cette phase n'existait pas dans le plan initial et c'est précisément pour ça qu'elle est critique. Tout déploiement IA bute sur les mêmes frictions admin au démarrage. Les régler en amont fait gagner trois heures plus tard.</p>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 1</span>
+        <span class="action-title">Compte Anthropic et clé API</span>
+      </div>
+      <div class="action-body">Créer un compte sur <a href="https://console.anthropic.com">console.anthropic.com</a>, générer une clé API, fixer une limite de dépense mensuelle à 50$ pour commencer. Cette limite est un garde-fou, pas une cible. Tu pourras la lever après deux semaines d'usage observé.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Anthropic Console</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 20 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ ouverture, plafond 50$/mois</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 2</span>
+        <span class="action-title">Bot Telegram</span>
+      </div>
+      <div class="action-body">Sur Telegram, ouvrir une conversation avec <code>@BotFather</code>, taper <code>/newbot</code>, suivre les instructions, conserver le token dans un gestionnaire de mots de passe. Créer aussi un canal privé dont tu es le seul membre, qui servira de journal de bord de l'agent.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Telegram BotFather</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 15 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 3</span>
+        <span class="action-title">APIs Google activées</span>
+      </div>
+      <div class="action-body">Dans Google Cloud Console : créer un projet « PN-IA-Agents », activer les APIs Gmail, Drive, Calendar, créer un OAuth 2.0 client desktop, télécharger <code>credentials.json</code> dans un dossier sécurisé local. C'est l'étape la plus longue et la plus frustrante si on la découvre le jour de l'installation.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Google Cloud Console</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 45 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ usage normal</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 4</span>
+        <span class="action-title">Première version brute de CONTEXT.md</span>
+      </div>
+      <div class="action-body">Dans un éditeur, écrire en 15 minutes sans chercher la perfection : noms et rôles des 14 personnes de l'équipe, tes 3 projets actifs en deux phrases chacun, tes 5 partenaires les plus importants, tes 3 prochaines deadlines de financement avec dates. Cette version brute sera enrichie en Phase 2.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Éditeur texte</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 15 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 5</span>
+        <span class="action-title">Décision de stockage des secrets</span>
+      </div>
+      <div class="action-body">Choisir un gestionnaire de secrets — idéalement 1Password ou Bitwarden — et y stocker la clé Anthropic, le token Telegram, le fichier <code>credentials.json</code>. <strong>Ne jamais coller ces valeurs en clair dans le repo OpenClaw.</strong></div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">1Password / Bitwarden</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 10 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0–5$/mois</span></div>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <div class="alert-title">✓ Livrable de fin de Phase −1</div>
+      <p style="margin:0;">Un dossier <code>~/printemps-numerique-ia/</code> contenant <code>credentials.json</code>, une note avec les références aux secrets stockés ailleurs, et la première version de <code>CONTEXT.md</code>. Tu es prêt pour la Phase 0.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 0 ============ -->
+  <section id="phase0">
+    <h2><span class="phase-badge">Phase 0</span> OpenClaw comme premier secrétaire <span class="status-dot">🟡</span></h2>
+    <p class="section-meta">Jours 3–9 — Le plan initial proposait trois jours. C'est irréaliste pour un DG sans chief of staff en plein cycle MTL connecte. Sept jours calendaires avec deux sessions protégées de 90 min dans ton agenda est plus honnête. Le reste du temps, l'agent tourne et tu lui parles depuis Telegram.</p>
+
+    <h3>Session 1 (~90 min, à protéger dans l'agenda)</h3>
+    <p>Installation et configuration de la personnalité.</p>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 6</span>
+        <span class="action-title">Installation OpenClaw</span>
+      </div>
+      <div class="action-body">Vérifier d'abord la procédure officielle à jour sur <a href="https://openclawai.io/quickstart">openclawai.io/quickstart</a>, parce que les commandes évoluent. Au moment de la rédaction, la voie standard est :
+      <pre><code>npm install -g openclaw
+openclaw onboard</code></pre>
+      Pendant l'onboarding, choisir Telegram comme canal et Claude via API Anthropic directe comme LLM, en collant la clé créée en Phase −1.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">OpenClaw</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 30 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ open source</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 7</span>
+        <span class="action-title">Trinité de fichiers de personnalité</span>
+      </div>
+      <div class="action-body">
+        <p>Contrairement à ce que disait le plan initial, OpenClaw utilise <strong>trois fichiers</strong> et non un seul :</p>
+        <ul class="bullet-list">
+          <li><code>AGENTS.md</code> — instructions opérationnelles et mémoire de base</li>
+          <li><code>SOUL.md</code> — persona, ton, limites</li>
+          <li><code>IDENTITY.md</code> — identité de l'agent</li>
+        </ul>
+        <p>La séparation est utile parce qu'elle permet de modifier le ton sans toucher aux règles, et inversement.</p>
+        <p>Voici un squelette de <code>SOUL.md</code> adapté à ton contexte :</p>
+        <pre><code># SOUL.md
+
+## Persona
+Secrétaire exécutif discret, attentif à la charge cognitive de Bob,
+DG de Printemps numérique. Tu communiques en français québécois 
+professionnel, direct, sans jargon. Tu signales l'urgence avant 
+l'importance. Tu formates pour lecture rapide, max 5 points.
+
+## Ce que tu fais sans demander
+Triage de courriels, brouillons de réponse, résumés de documents, 
+recherche web, rappels de deadlines, comptes-rendus de réunion 
+à partir de notes brutes.
+
+## Ce que tu ne fais JAMAIS sans confirmation explicite de Bob
+Envoi d'un courriel en son nom, engagement avec un partenaire, 
+partage de données de financement à l'externe, action sur un 
+dossier impliquant un mineur.
+
+## Critères d'urgence — contexte Printemps numérique
+EST URGENT : partenaire institutionnel (CALQ, CAC, ISDE, PCH, 
+ministères), demande média &lt; 24h, deadline subvention &lt; 7 jours, 
+message équipe avec mention "bloqué", convocation officielle.
+
+N'EST PAS URGENT même si ça en a l'air : infolettres, invitations 
+événements &gt; 14 jours, demandes de café réseautage, relances 
+commerciales.</code></pre>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">SOUL/AGENTS/IDENTITY.md</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 60 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$</span></div>
+      </div>
+    </div>
+
+    <h3>Session 2 (~90 min, 48h après la première)</h3>
+    <p>Connexion des outils et premier cron.</p>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 8</span>
+        <span class="action-title">Connexion Telegram et test</span>
+      </div>
+      <div class="action-body">Coller le token Telegram dans la config OpenClaw, démarrer le gateway, envoyer un premier message au bot depuis ton téléphone. Vérifier qu'il répond en respectant le ton de SOUL.md.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">OpenClaw + Telegram</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 20 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 9</span>
+        <span class="action-title">Skills ClawHub initiaux</span>
+      </div>
+      <div class="action-body">
+        <p>Installer 5 skills depuis <a href="https://clawhub.ai">clawhub.ai</a> en validant la qualité de chacun avant. Pour chaque skill, lis le SKILL.md sur ClawHub avant installation — la qualité communautaire varie.</p>
+        <ul class="bullet-list">
+          <li><code>gmail-manager</code> — triage courriel</li>
+          <li><code>google-calendar</code> — agenda</li>
+          <li><code>web-research</code> — veille ciblée</li>
+          <li><code>meeting-notes</code> — comptes-rendus</li>
+          <li><code>morning-briefing</code> — si disponible, sinon on le construit en custom plus tard</li>
+        </ul>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">ClawHub</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 30 min total</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ install, coût d'usage API</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 10</span>
+        <span class="action-title">Configuration Gmail via MCP</span>
+      </div>
+      <div class="action-body">Connecter le MCP Gmail à OpenClaw avec les credentials Google de Phase −1. Tester avec une demande type : <em>« lis mes 20 derniers courriels et identifie les 3 urgents selon les critères de SOUL.md »</em>.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">OpenClaw + MCP Gmail</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 45 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ API Gmail</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 11</span>
+        <span class="action-title">Premier cron de briefing matinal</span>
+      </div>
+      <div class="action-body">Vérifier la syntaxe exacte dans la doc OpenClaw au moment de l'installation (peut être <code>openclaw cron add</code> ou <code>openclaw schedule add</code> selon la version). Le briefing tourne en semaine à 7h et envoie sur Telegram :
+        <ul class="bullet-list">
+          <li>l'agenda du jour</li>
+          <li>les courriels urgents selon les critères SOUL.md</li>
+          <li>les rappels de deadlines depuis CONTEXT.md</li>
+          <li>une seule action prioritaire suggérée</li>
+        </ul>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">OpenClaw cron</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible — 30 min</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">~1–2$/jour API</span></div>
+      </div>
+    </div>
+
+    <div class="alert alert-yellow">
+      <div class="alert-title">⏱ Période de calibration (jours 5–9)</div>
+      <p>C'est la partie que le plan initial sous-estimait. Le filtrage « courriels urgents » sera bruité au début. Chaque matin pendant 5 jours, tu réponds au briefing par Telegram avec un feedback précis : <em>« ce courriel n'était pas urgent parce que X »</em>, <em>« tu as oublié celui de Y qui est critique parce que Z »</em>. Ces corrections enrichissent SOUL.md et AGENTS.md. <strong>Sans cette calibration, l'agent reste médiocre et tu vas l'abandonner.</strong></p>
+    </div>
+
+    <div class="alert alert-green">
+      <div class="alert-title">✓ Livrable de fin de Phase 0</div>
+      <p style="margin:0;">Briefing matinal reçu chaque jour ouvrable, feedback intégré, capacité à déléguer une tâche depuis Telegram en réponse au briefing. Test de réussite subjectif : est-ce que tu te dis <em>« tiens, c'est utile »</em> plutôt que <em>« tiens, faut encore que je le corrige »</em> ?</p>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 1 ============ -->
+  <section id="phase1">
+    <h2><span class="phase-badge">Phase 1</span> Cartographie informée des charges <span class="status-dot">🟢</span></h2>
+    <p class="section-meta">Semaines 3–4 — Le plan initial mettait cette phase avant tout déploiement. C'est l'erreur classique. Tu ne sais pas vraiment ce qui est délégable tant que tu n'as pas essayé de déléguer. Faire la cartographie après deux semaines d'usage réel d'OpenClaw donne des données concrètes plutôt que de la spéculation.</p>
+
+    <h3>Méthode</h3>
+    <p>Pendant les semaines 3 et 4, tu ouvres un fichier <code>delegation-log.md</code> et tu y notes chaque tâche que tu as essayé de déléguer à OpenClaw, le résultat, et la décision : à garder, à améliorer, à reprendre en humain. À la fin de la semaine 4, tu classes les tâches selon les trois axes ci-dessous.</p>
+
+    <div class="axes">
+      <div class="axis axis-1">
+        <div class="axis-label">AXE 1</div>
+        <div class="axis-title">OpenClaw immédiat</div>
+        <div class="axis-body">
+          <p><strong>Tâches courtes, locales</strong>, qui demandent un accès à tes fichiers ou ton agenda du moment.</p>
+          <p>Exemples concrets : triage des ~80 courriels/jour selon critères PN, brouillon de réponse à une demande média sur MTL connecte, résumé d'un rapport de 40 pages sur l'IA en éducation, recherche web ciblée sur les appels CALQ et CAC ouverts ce trimestre, organisation des dossiers Drive MTL connecte par catégorie, compte-rendu structuré à partir de notes brutes de réunion d'équipe.</p>
+        </div>
+      </div>
+
+      <div class="axis axis-2">
+        <div class="axis-label">AXE 2</div>
+        <div class="axis-title">Hermes ensuite</div>
+        <div class="axis-body">
+          <p><strong>Tâches longues, planifiées</strong>, ou qui demandent de la mémoire long terme cross-session.</p>
+          <p>Exemples : analyse hebdomadaire des deadlines de subventions et ébauche des sections standard, veille nocturne quotidienne à 23h sur les sources IA et numérique, comparaison des métriques des 5 dernières infolettres IA &amp; Toi, compilation des fiches intervenants MTL connecte sur le cycle complet, suivi mensuel des interactions avec les 20 partenaires clés.</p>
+        </div>
+      </div>
+
+      <div class="axis axis-3">
+        <div class="axis-label">AXE 3</div>
+        <div class="axis-title">Supervision humaine augmentée</div>
+        <div class="axis-body">
+          <p><strong>L'IA prépare, tu décides</strong>, et ça reste comme ça.</p>
+          <p>Partenariats stratégiques : agent prépare contexte/historique/enjeux, tu conduis. Vision organisationnelle : agent synthétise, direction = ta décision. Relations institutionnelles (gouv, fondations majeures) : brouillons IA, révision/envoi par toi seulement. Décisions RH : analyses de charge oui, recommandations sur les personnes jamais. Demandes de financement finales : agent rédige les sections factuelles, tu révises ton et vision.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <div class="alert-title">✓ Livrable de fin de Phase 1</div>
+      <p style="margin:0;">Un document <code>cartographie-charges-v1.md</code> listant 30 à 50 tâches classées sur les trois axes, avec pour chacune l'effort estimé et le risque de délégation. C'est ce document qui pilote la Phase 2.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 2 ============ -->
+  <section id="phase2">
+    <h2><span class="phase-badge">Phase 2</span> Hermes &amp; mémoire long terme <span class="status-dot">🟡</span></h2>
+    <p class="section-meta">Semaines 5–8 — Déploiement de l'agent autonome cloud avec mémoire cross-session.</p>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 12</span>
+        <span class="action-title">Choix de l'infrastructure</span>
+      </div>
+      <div class="action-body">
+        <p>Deux options selon ton appétence :</p>
+        <ul class="bullet-list">
+          <li><strong>Option A — VPS Hetzner CX22</strong> à environ 5€/mois, Ubuntu 24.04. Plus prévisible, demande 2–3h d'admin SSH initiale.</li>
+          <li><strong>Option B — Serverless Modal</strong>. Gratuit quand inactif, parfait pour des crons nocturnes, mais demande la compréhension du modèle serverless.</li>
+        </ul>
+        <p>Pour ton profil et tes contraintes OBNL, je recommande <strong>Hetzner</strong> pour la prévisibilité budgétaire et la simplicité mentale.</p>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hetzner CX22</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 2–3h setup</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">~7$ CAD/mois</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 13</span>
+        <span class="action-title">Installation Hermes</span>
+      </div>
+      <div class="action-body">Vérifier la procédure officielle à jour sur <a href="https://hermes-agent.nousresearch.com/docs/getting-started/installation">hermes-agent.nousresearch.com/docs/getting-started/installation</a>. Au moment de ce plan, l'installation se fait en une commande curl + bash. Configurer Claude via API Anthropic directe comme LLM principal, activer le bot Telegram, activer les modules <strong>cron</strong>, <strong>memory</strong> et <strong>skills</strong>.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hermes Agent</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 2h</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ open source MIT</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 14</span>
+        <span class="action-title">CONTEXT.md enrichi</span>
+      </div>
+      <div class="action-body">
+        <p>Reprendre la version brute de Phase −1 et l'étendre. Sections recommandées :</p>
+        <ul class="bullet-list">
+          <li>Organisation (mission, budget annuel, exercice fiscal)</li>
+          <li>Projets actifs avec cycle annuel et partenaires clés</li>
+          <li>Équipe complète avec rôles</li>
+          <li>Cycles de financement actifs avec deadlines</li>
+          <li>Style de communication de Bob</li>
+          <li>Top 10 partenaires stratégiques avec contexte relationnel</li>
+        </ul>
+        <p>3–4h de rédaction <strong>étalées sur la semaine</strong>, pas en bloc.</p>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hermes CONTEXT.md</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 3–4h</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 15</span>
+        <span class="action-title">Choix du memory provider Hermes</span>
+      </div>
+      <div class="action-body">
+        <p><strong>Point critique pour la Loi 25.</strong> Hermes propose 8 memory providers et le plan initial assumait Honcho par défaut. Pour Printemps numérique, je recommande :</p>
+        <ul class="bullet-list">
+          <li>Un <strong>provider local</strong> pour tout ce qui touche aux mineurs et aux dossiers de financement</li>
+          <li><strong>Honcho cloud uniquement</strong> pour les éléments publics (veille sectorielle)</li>
+        </ul>
+        <p>La configuration se fait dans <code>~/.hermes/memory.yaml</code> avec des règles d'exclusion explicites sur les patterns sensibles.</p>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hermes memory providers</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 1h + apprentissage continu</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ provider local</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 16</span>
+        <span class="action-title">MCP servers prioritaires</span>
+      </div>
+      <div class="action-body">Connecter Gmail, Google Drive, Google Calendar via MCP. Optionnellement Notion si tu l'utilises pour le suivi de projets. <strong>Tester chaque connexion</strong> avec une demande simple avant de passer à la suivante.</div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hermes + MCP</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-med">Moyen — 1h/intégration</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">0$ usage normal</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 17</span>
+        <span class="action-title">Crons clés</span>
+      </div>
+      <div class="action-body">
+        <p>Trois crons à mettre en place <strong>dans cet ordre</strong>, en attendant une semaine entre chaque pour calibrer :</p>
+        <ul class="bullet-list">
+          <li><strong>Rapport hebdomadaire d'équipe</strong> — lundi 8h</li>
+          <li><strong>Veille nocturne IA et numérique</strong> — chaque soir 23h, livrée le matin à 7h30</li>
+          <li><strong>Extraction des deadlines de financement</strong> — dimanche 18h, mise à jour CONTEXT.md, alerte si deadline &lt; 30 jours</li>
+        </ul>
+      </div>
+      <div class="action-spec">
+        <div class="spec-item"><span class="spec-label">Outil</span><span class="spec-value">Hermes cron</span></div>
+        <div class="spec-item"><span class="spec-label">Effort</span><span class="spec-value effort-low">Faible après config</span></div>
+        <div class="spec-item"><span class="spec-label">Coût</span><span class="spec-value">~3–8$/semaine API</span></div>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 18</span>
+        <span class="action-title">Complémentarité OpenClaw / Hermes</span>
+      </div>
+      <div class="action-body">
+        <p>Règle simple à formaliser et afficher dans AGENTS.md des deux agents :</p>
+        <div class="complementarity">
+          <div class="agent-card openclaw">
+            <div class="agent-name">OPENCLAW</div>
+            <div class="agent-role">Local · Immédiat · Interactif</div>
+            <div class="agent-spec">
+              <p><strong>Où :</strong> ton Mac/laptop</p>
+              <p><strong>Disponibilité :</strong> quand ton ordi est allumé</p>
+              <p><strong>Idéal pour :</strong> tâches immédiates, demande directe, accès fichiers locaux, briefing matinal (dépend de ton agenda local)</p>
+            </div>
+          </div>
+          <div class="agent-card hermes">
+            <div class="agent-name">HERMES</div>
+            <div class="agent-role">Cloud · 24/7 · Mémoire longue</div>
+            <div class="agent-spec">
+              <p><strong>Où :</strong> VPS Hetzner</p>
+              <p><strong>Disponibilité :</strong> 24/7</p>
+              <p><strong>Idéal pour :</strong> crons nocturnes, tâches longues, mémoire long terme, rapports hebdo, veille</p>
+            </div>
+          </div>
+        </div>
+        <p><strong>Aucun cron ne doit exister dans les deux agents.</strong> Le briefing matinal reste sur OpenClaw. Les rapports hebdo et la veille passent à Hermes.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <div class="alert-title">✓ Livrable de fin de Phase 2</div>
+      <p style="margin:0;">Hermes opérationnel, 3 crons productifs, mémoire long terme calibrée avec règles d'exclusion Loi 25 actives, complémentarité documentée.</p>
+    </div>
+  </section>
+
+  <!-- ============ PHASE 3 ============ -->
+  <section id="phase3">
+    <h2><span class="phase-badge">Phase 3</span> Skills sur mesure &amp; gouvernance <span class="status-dot">🟢</span></h2>
+    <p class="section-meta">Semaines 9–14 — Construction de skills propriétaires Printemps numérique, formalisation de la gouvernance, mise en place des métriques de charge mentale.</p>
+
+    <h3>Action 19 — Cinq skills custom dans cet ordre</h3>
+    <p>Le plan initial proposait l'ordre alphabétique. Je recommande un <strong>ordre par risque croissant et valeur croissante</strong>.</p>
+
+    <div class="skill">
+      <div class="skill-header">
+        <div class="skill-num">1</div>
+        <div class="skill-name">compte-rendu-réunion</div>
+        <span class="skill-risk risk-low">Risque faible</span>
+      </div>
+      <div class="skill-detail"><strong>Pourquoi :</strong> faible risque, gain immédiat, ne touche aucune donnée sensible. Apprentissage du format skill custom sans enjeu.</div>
+      <div class="skill-detail"><strong>Input :</strong> notes brutes ou transcription</div>
+      <div class="skill-detail"><strong>Process :</strong> identifier participants, décisions, actions assignées avec responsable et deadline, formater selon template Printemps numérique</div>
+      <div class="skill-detail"><strong>Output :</strong> compte-rendu prêt à coller</div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <div class="skill-num">2</div>
+        <div class="skill-name">résumer-infolettre-ia</div>
+        <span class="skill-risk risk-low">Risque faible</span>
+      </div>
+      <div class="skill-detail"><strong>Pourquoi :</strong> risque faible, valeur récurrente.</div>
+      <div class="skill-detail"><strong>Input :</strong> URL ou texte d'infolettre</div>
+      <div class="skill-detail"><strong>Process :</strong> extraire 5 points clés pertinents OBNL/éducation, identifier ce qui concerne directement Printemps numérique, évaluer pertinence pour IA &amp; Toi</div>
+      <div class="skill-detail"><strong>Output :</strong> résumé 200 mots + 1 à 3 actions suggérées avec niveau d'urgence</div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <div class="skill-num">3</div>
+        <div class="skill-name">fiche-intervenant-mtlconnecte</div>
+        <span class="skill-risk risk-med">Risque modéré</span>
+      </div>
+      <div class="skill-detail"><strong>Pourquoi :</strong> risque modéré, gros volume.</div>
+      <div class="skill-detail"><strong>Input :</strong> nom et organisation</div>
+      <div class="skill-detail"><strong>Process :</strong> recherche web parcours et publications, vérification cohérence thématiques de l'année, détection conflits d'intérêt potentiels, génération bio courte (150 mots) et longue (300 mots) en français et anglais</div>
+      <div class="skill-detail"><strong>Output :</strong> fiche structurée prête pour le programme officiel</div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <div class="skill-num">4</div>
+        <div class="skill-name">suivi-partenariat</div>
+        <span class="skill-risk risk-med">Risque modéré</span>
+      </div>
+      <div class="skill-detail"><strong>Pourquoi :</strong> risque modéré parce qu'il touche aux relations.</div>
+      <div class="skill-detail"><strong>Input :</strong> nom du partenaire</div>
+      <div class="skill-detail"><strong>Process :</strong> charger historique depuis mémoire Hermes, résumer dernière interaction et engagements mutuels, vérifier courriels récents, suggérer message de suivi si &gt; 30 jours sans contact</div>
+      <div class="skill-detail"><strong>Output :</strong> fiche partenaire à jour + brouillon de courriel si pertinent</div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <div class="skill-num">5</div>
+        <div class="skill-name">préparer-demande-subvention</div>
+        <span class="skill-risk risk-high">Risque élevé</span>
+      </div>
+      <div class="skill-detail"><strong>Pourquoi :</strong> plus haut enjeu, à faire en dernier quand la mémoire long terme est rodée.</div>
+      <div class="skill-detail"><strong>Input :</strong> nom du programme, organisme bailleur, thématique, deadline</div>
+      <div class="skill-detail"><strong>Process :</strong> charger template Printemps numérique depuis Drive, scraper critères d'admissibilité, identifier projets passés similaires depuis CONTEXT.md, générer ébauche des sections (description, objectifs, budget, impact), créer dossier Drive avec brouillon</div>
+      <div class="skill-detail"><strong>Output :</strong> message Telegram avec lien Drive + checklist des sections à compléter par toi</div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 20</span>
+        <span class="action-title">Cycle de validation et amélioration</span>
+      </div>
+      <div class="action-body">Pour chaque nouveau skill : exécution sur 3 cas réels avant validation. Feedback explicite en Telegram qui met à jour le skill automatiquement. <strong>Aucun skill touchant au financement ou aux données de jeunes ne peut être modifié sans ta validation explicite, point.</strong></div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 21</span>
+        <span class="action-title">Politique de confidentialité opérationnelle</span>
+      </div>
+      <div class="action-body">
+        <p>Trois niveaux à formaliser dans un document <code>confidentialite.md</code> partagé avec l'équipe :</p>
+      </div>
+
+      <div class="alert alert-red" style="margin-top:14px;">
+        <div class="alert-title">🔒 Local uniquement, jamais en cloud</div>
+        <p style="margin:0;">Noms et infos des participants jeunes · dossiers de financement avec montants · informations contractuelles avec partenaires · données RH équipe.</p>
+      </div>
+
+      <div class="alert alert-yellow">
+        <div class="alert-title">☁ API cloud autorisé après expurgation</div>
+        <p style="margin:0;">Résumés de courriels publics anonymisés · recherches web et veille sectorielle · fiches intervenants à partir d'information publique · brouillons sans données personnelles identifiables.</p>
+      </div>
+
+      <div class="alert alert-red">
+        <div class="alert-title">⛔ Jamais en cloud, sous aucun prétexte</div>
+        <p style="margin:0;">Données personnelles de mineurs (Loi 25 + LPRPDE) · numéros de dossier de financement avec montants · informations sous NDA institutionnel.</p>
+      </div>
+
+      <div class="action-body">
+        <p style="margin-top:14px;">À ajouter au-dessus du plan initial : une <strong>règle d'expurgation systématique</strong> dans SOUL.md qui force le remplacement des noms de mineurs par un identifiant générique avant tout appel LLM, et la <strong>tenue d'un registre des traitements</strong> comme l'exige l'article 3.2 de la Loi 25. Ce n'est pas un avis juridique formel — pour ça, consulte la <a href="https://www.cai.gouv.qc.ca/">Commission d'accès à l'information du Québec</a> ou un conseil juridique spécialisé.</p>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 22</span>
+        <span class="action-title">Gouvernance d'équipe</span>
+      </div>
+      <div class="action-body">
+        <p>Trois niveaux d'accès :</p>
+        <ul class="bullet-list">
+          <li><strong>Toi seul :</strong> configuration, skills financement, données sensibles</li>
+          <li><strong>1–2 coordos seniors :</strong> tâches opérationnelles non sensibles (résumés réunion, fiches intervenants, veille)</li>
+          <li><strong>Le reste de l'équipe :</strong> lecture via résumés partagés sur le canal de communication interne</li>
+        </ul>
+        <p>Le maintien des skills reste sous ta responsabilité unique pour ceux qui touchent au financement ou aux mineurs.</p>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-header">
+        <span class="action-num">ACTION 23</span>
+        <span class="action-title">Plan de continuité</span>
+      </div>
+      <div class="action-body">Point absent du plan initial et critique pendant MTL connecte :
+        <ul class="bullet-list">
+          <li>Export hebdomadaire automatique de CONTEXT.md, AGENTS.md, SOUL.md vers Drive</li>
+          <li>Procédure de redémarrage écrite (que Hermes peut générer lui-même), stockée dans Drive et imprimée en version papier dans ton bureau</li>
+          <li>Test de restauration une fois pendant la phase 3 sur un environnement vierge</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <div class="alert-title">✓ Livrable de fin de Phase 3</div>
+      <p style="margin:0;">5 skills custom validés, politique de confidentialité documentée et appliquée, gouvernance d'équipe en place, plan de continuité testé.</p>
+    </div>
+  </section>
+
+  <!-- ============ MÉTRIQUES ============ -->
+  <section id="metriques">
+    <h2>Métriques de succès</h2>
+    <p class="section-meta">Quatre indicateurs à suivre, dont un subjectif qui est le plus important.</p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-num">INDICATEUR 1 — OPÉRATIONNEL</div>
+        <div class="metric-title">Nombre de tâches déléguées par semaine via Telegram</div>
+        <div class="metric-target">Cible fin Phase 2 : ≥ 15/semaine. Cible fin Phase 3 : ≥ 25/semaine.</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-num">INDICATEUR 2 — TEMPOREL</div>
+        <div class="metric-title">Temps consacré aux tâches de secrétariat</div>
+        <div class="metric-target">Mesure de référence en semaine 1 par auto-observation. Cible fin Phase 3 : &lt; 2 heures/semaine.</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-num">INDICATEUR 3 — QUALITATIF</div>
+        <div class="metric-title">Zéro deadline de financement manquée</div>
+        <div class="metric-target">Non négociable.</div>
+      </div>
+
+      <div class="metric metric-key">
+        <div class="metric-num">INDICATEUR 4 — LE PLUS IMPORTANT</div>
+        <div class="metric-title">Nombre de fois/semaine où tu ouvres ton laptop le soir/weekend pour rattraper</div>
+        <div class="metric-target">Mesure de référence en semaine 1. Cible fin Phase 3 : <strong>−50% minimum</strong>. Si cet indicateur ne bouge pas, le système n'a pas atteint son but réel, peu importe les autres chiffres.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUDGET ============ -->
+  <section id="budget">
+    <h2>Budget mensuel honnête en régime de croisière</h2>
+    <p class="section-meta">En étant transparent plutôt que rassurant. Les estimations basses qui circulent en ligne sous-estiment l'usage réel d'un DG actif.</p>
+
+    <table class="budget">
+      <thead>
+        <tr><th>Poste</th><th>Coût mensuel CAD</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>VPS Hetzner CX22</td><td>~7 $</td></tr>
+        <tr><td>API Claude Sonnet 4.6 (volume DG actif)</td><td>60 – 100 $</td></tr>
+        <tr><td>OpenClaw (open source)</td><td>0 $</td></tr>
+        <tr><td>Hermes (open source MIT)</td><td>0 $</td></tr>
+        <tr><td>MCP servers Google (usage normal)</td><td>0 $</td></tr>
+        <tr><td>Gestionnaire de mots de passe</td><td>0 – 7 $</td></tr>
+        <tr class="total"><td>Total réaliste</td><td>70 – 115 $</td></tr>
+      </tbody>
+    </table>
+
+    <p>C'est un poste « <strong>outils numériques</strong> » à présenter au CA comme tel, pas une dépense cachée.</p>
+  </section>
+
+  <!-- ============ VIGILANCE ============ -->
+  <section id="vigilance">
+    <h2>Points de vigilance permanents <span class="status-dot">🔴</span></h2>
+
+    <div class="alert alert-red">
+      <div class="alert-title">Loi 25 (Québec) &amp; LPRPDE</div>
+      <p style="margin:0;">S'appliquent à Printemps numérique dès qu'un nom de mineur entre dans un appel LLM. La règle d'expurgation systématique dans SOUL.md est non négociable. Le registre des traitements aussi.</p>
+    </div>
+
+    <div class="alert alert-red">
+      <div class="alert-title">Évolution rapide des outils</div>
+      <p style="margin:0;">OpenClaw et Hermes évoluent vite. Toujours vérifier la doc officielle au moment de l'installation, ne jamais copier-coller aveuglément les commandes de ce plan ou d'un tutoriel daté.</p>
+    </div>
+
+    <div class="alert alert-red">
+      <div class="alert-title">Calibration sans laquelle ça meurt</div>
+      <p style="margin:0;">Les agents demandent du feedback explicite pendant les premières semaines. Sauter cette étape produit des agents médiocres que tu vas abandonner.</p>
+    </div>
+
+    <div class="alert alert-red">
+      <div class="alert-title">Frontière stratégique</div>
+      <p style="margin:0;">L'agent ne décide jamais à ta place pour les sujets stratégiques. Cette frontière est dans SOUL.md et n'est pas négociable même quand tu es fatigué.</p>
+    </div>
+  </section>
+
+  <!-- ============ NEXT STEP ============ -->
+  <section id="nextstep" class="next-step">
+    <h2>⚡ Next Step immédiat — aujourd'hui</h2>
+    <p>Trente minutes maintenant pour exécuter la Phase −1 partiellement, dans cet ordre exact :</p>
+
+    <ol class="step-list">
+      <li>Ouvrir <a href="https://openclawai.io/quickstart">openclawai.io/quickstart</a> et <a href="https://hermes-agent.nousresearch.com/docs/getting-started/installation">la doc d'installation Hermes</a>, lire la première page de chacune pour vérifier que les commandes correspondent à la version actuelle. <strong>Si elles divergent, fais confiance à la doc officielle, pas au plan.</strong></li>
+      <li>Créer le compte Anthropic sur <a href="https://console.anthropic.com">console.anthropic.com</a>, générer la clé API, fixer la limite à 50 $/mois.</li>
+      <li>Ouvrir un fichier <code>CONTEXT.md</code> dans ton Drive et écrire en 15 minutes la version brute : équipe, projets, partenaires clés, deadlines.</li>
+    </ol>
+
+    <p style="margin-top:20px;"><strong>Résultat :</strong> tu auras franchi 60 % de la Phase −1 en 30 minutes, et le jour 1 de la Phase 0 sera fluide au lieu d'être frustrant.</p>
+  </section>
+
+  <!-- ============ ITÉRER ============ -->
+  <section id="iterer">
+    <h2>Comment itérer sur ce plan</h2>
+    <p>Ce plan est <strong>une itération 1, pas une vérité</strong>. La méthode d'amélioration :</p>
+
+    <p>À la fin de chaque phase, tu ouvres un fichier <code>retours-plan.md</code> et tu notes ce qui a marché, ce qui a échoué, ce que tu changerais. Au minimum tous les mois, tu reviens vers moi avec ces notes et on fait une itération 2, 3, et ainsi de suite.</p>
+
+    <p>Le plan final ne sera ni le mien ni celui de personne d'autre, ce sera <strong>le tien après quatre ou cinq itérations vécues</strong>.</p>
+  </section>
+
+  <footer class="footer">
+    <p>Plan d'action IA · Printemps numérique · Itération 1 du 2 mai 2026</p>
+    <p style="margin-top:8px;">Document vivant — à corriger au fil de l'expérience</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
